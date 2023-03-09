@@ -1,8 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,500&display=swap");
+
+p {
+  color: red;
+  padding: 0;
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+}
 button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 15px;
   background-color: hsla(240, 40%, 62%, 0.742);
+  font-family: "Ubuntu", sans-serif;
+}
+
+button:disabled {
+  background-color: #ccc;
 }
 
 .form {
@@ -16,8 +29,9 @@ button {
   padding: 1rem;
   width: 90%;
   max-width: 40rem;
-  height: 30vh;
-  background-color: yellow;
+  min-height: 30vh;
+  background-color: rgba(0, 0, 0, 0.219);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
   /* flex-direction: column; */
 }

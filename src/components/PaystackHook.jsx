@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import { usePaystackPayment } from "react-paystack";
@@ -22,6 +22,15 @@ const PaystackHook = () => {
   const [transref, setTransref] = useState("");
   const [showVerifyButton, setShowVerifyButton] = useState(false);
   const [OverLay, setOverLay] = useState(false);
+  const [validInput, setValidInput] = useState(false);
+
+  useEffect(() => {
+    if (+amount < 100 && amount !== "") {
+      setValidInput(false);
+    } else {
+      setValidInput(true);
+    }
+  }, [amount]);
 
   const config = {
     reference: reference,
@@ -76,6 +85,8 @@ const PaystackHook = () => {
         setEmail("");
         setAmount("");
       }
+    } else {
+      setValidInput(false);
     }
   };
 
@@ -112,16 +123,26 @@ const PaystackHook = () => {
               <input
                 value={email}
                 onChange={emailChangeHandler}
-                type="text"
+                type="email"
                 placeholder="enter your mail"
               />
               <input
                 value={amount}
+                min="1"
+                max="10000000"
                 onChange={amountChangeHandler}
-                type="number"
-                placeholder="enter your amount in kobo"
+                type="text"
+                placeholder="enter your amount"
               />
-              <button type="submit">Click here to pay</button>
+              {!validInput && (
+                <p>
+                  Both field must not be empty and The amount must be greater
+                  100 naira naira
+                </p>
+              )}
+              <button type="submit" disabled={!validInput}>
+                Click here to pay
+              </button>
             </form>
           </div>
           {showVerifyButton && (
