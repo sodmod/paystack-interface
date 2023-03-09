@@ -15,7 +15,7 @@ const ModalOverlay = (props) => {
   );
 };
 
-const PaystackHook = (props) => {
+const PaystackHook = () => {
   const [email, setEmail] = useState("");
   const [amount, setAmount] = useState("");
   const [reference, setReference] = useState("");
@@ -31,7 +31,6 @@ const PaystackHook = (props) => {
   };
 
   const onSuccess = (reference) => {
-    console.log(reference.reference);
     setTransref(reference.reference);
   };
 
@@ -57,9 +56,7 @@ const PaystackHook = (props) => {
 
   const initialize = async (event) => {
     event.preventDefault();
-    console.log("1");
     if (email !== "" && amount !== "") {
-      console.log("2");
       const response = await sendRequest({
         url: "https://spring-paystack-services.onrender.com/api/transaction/initialize",
         method: "POST",
@@ -71,11 +68,9 @@ const PaystackHook = (props) => {
       });
 
       if (response) {
-        console.log("3");
         const reponse = response.data.data;
         config.reference = reponse?.reference || "";
         setReference(reponse?.reference);
-        console.log("This is response", response);
         initializePayment(onSuccess, onClose);
         setShowVerifyButton((prev) => !prev);
         setEmail("");
