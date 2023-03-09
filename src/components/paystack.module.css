@@ -1,12 +1,82 @@
-.form {
-  height: 50vh;
-  width: 50vw;
-  margin: auto;
-  background-color: azure;
-  justify-content: flex;
-  flex-direction: column;
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  background-color: hsla(240, 40%, 62%, 0.742);
 }
 
-.form input {
+.form {
+  background-color: rgba(27, 203, 215, 0.594);
+  height: 100vh;
+  width: 100vw;
+}
+
+.form-input {
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+  height: 30vh;
+  background-color: yellow;
+  border-radius: 20px;
+  /* flex-direction: column; */
+}
+
+.form-input input {
+  background-color: rgba(25, 85, 85, 0.619);
+  border-radius: 20px;
+  font: inherit;
+  display: block;
+  width: 80%;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  outline: none;
+}
+
+.verify {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal {
+  position: fixed;
+  top: 20vh;
+  left: 5%;
+  width: 90%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+  animation: slide-down 300ms ease-out forwards;
+}
+
+@media (min-width: 768px) {
+  .modal {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

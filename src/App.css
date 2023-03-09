@@ -1,8 +1,8 @@
 .App {
   text-align: center;
   width: 100vw;
+  max-width: 100vw;
   min-height: 100vh;
-  background-color: bisque;
 }
 
 .App-logo {

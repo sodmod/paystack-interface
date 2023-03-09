@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 // export const sendRequest = async (requestConfig) => {
 //   const response = await fetch(requestConfig.url, {
 //     method: requestConfig.method ? requestConfig.method : "GET",
@@ -7,8 +9,6 @@
 
 //   return response;
 // };
-
-import Axios from "axios";
 
 export const sendRequest = async (requestConfig) => {
   const response = await Axios({
