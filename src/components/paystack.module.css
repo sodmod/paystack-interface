@@ -1,0 +1,12 @@
+.form {
+  height: 50vh;
+  width: 50vw;
+  margin: auto;
+  background-color: azure;
+  justify-content: flex;
+  flex-direction: column;
+}
+
+.form input {
+  display: flex;
+}
