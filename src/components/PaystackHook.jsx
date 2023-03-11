@@ -119,6 +119,9 @@ const PaystackHook = () => {
   const verify = async (event) => {
     event.preventDefault();
 
+    setIsLoading(true);
+    setError(false);
+
     if (reference !== "") {
       const response = await sendRequest({
         url: "https://spring-paystack-services.onrender.com/api/transaction/verify",
@@ -127,6 +130,10 @@ const PaystackHook = () => {
         body: {
           accessToken: transref,
         },
+      }).catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        setError(true);
       });
       if (response) {
         setOverLay((prev) => !prev);
