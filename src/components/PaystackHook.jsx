@@ -10,9 +10,21 @@ import styles from "./paystack.module.css";
 const ModalOverlay = (props) => {
   return (
     <div className={styles.backdrop} onClick={props.onClose}>
-      <div className={styles.modal}>Your payment is Successful</div>
+      {props.children}
     </div>
   );
+};
+
+const SuccessOverLay = () => {
+  return <div className={styles.modal}>Your payment is Successful</div>;
+};
+
+const EvrroOverlay = () => {
+  return <div className={styles.modal}> Sorry there is an erro</div>;
+};
+
+const LoadingOverlay = () => {
+  return <div className={styles.modal}>Loading please wait</div>;
 };
 
 const PaystackHook = () => {
@@ -22,7 +34,9 @@ const PaystackHook = () => {
   const [transref, setTransref] = useState("");
   const [showVerifyButton, setShowVerifyButton] = useState(false);
   const [OverLay, setOverLay] = useState(false);
-  const [validInput, setValidInput] = useState(false);
+  const [validInput, setValidInput] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (+amount < 100 && amount !== "") {
@@ -30,7 +44,7 @@ const PaystackHook = () => {
     } else {
       setValidInput(true);
     }
-  }, [amount]);
+  }, [amount, email]);
 
   const config = {
     reference: reference,
@@ -59,13 +73,17 @@ const PaystackHook = () => {
 
   const onCLose = () => {
     setReference("");
-    setOverLay((prev) => !prev);
+    setOverLay(false);
+    setError(false);
     setShowVerifyButton((prev) => !prev);
   };
 
   const initialize = async (event) => {
     event.preventDefault();
+
     if (email !== "" && amount !== "") {
+      setIsLoading(true);
+      setError(false);
       const response = await sendRequest({
         url: "https://spring-paystack-services.onrender.com/api/transaction/initialize",
         method: "POST",
@@ -74,9 +92,17 @@ const PaystackHook = () => {
           email: email,
           amount: amount.toString(),
         },
+      }).catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        setError(true);
       });
 
+      console.log(response);
+
       if (response) {
+        setIsLoading(false);
+        setError(false);
         const reponse = response.data.data;
         config.reference = reponse?.reference || "";
         setReference(reponse?.reference);
@@ -115,7 +141,26 @@ const PaystackHook = () => {
   return (
     <>
       {OverLay &&
-        createPortal(<ModalOverlay onClose={onCLose} />, portalElement)}
+        createPortal(
+          <ModalOverlay onClose={onCLose}>
+            <SuccessOverLay />
+          </ModalOverlay>,
+          portalElement
+        )}
+      {isLoading &&
+        createPortal(
+          <ModalOverlay>
+            <LoadingOverlay />
+          </ModalOverlay>,
+          portalElement
+        )}
+      {error &&
+        createPortal(
+          <ModalOverlay onClose={onCLose}>
+            <EvrroOverlay />
+          </ModalOverlay>,
+          portalElement
+        )}
       {
         <div className={styles.form}>
           <div className={styles["form-input"]}>
