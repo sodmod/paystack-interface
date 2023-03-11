@@ -137,6 +137,8 @@ const PaystackHook = () => {
       });
       if (response) {
         setOverLay((prev) => !prev);
+        setError(false);
+        setIsLoading(false);
         return console.log("This is after verifying", response);
       }
     }
